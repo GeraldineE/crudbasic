@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CRUD</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+
+            .container{overflow: hidden}
+            .tab{float: left;}
+            .tab-2{margin-left: 50px}
+            .tab-2 input{display: block;margin-bottom: 10px}
+            tr{transition:all .25s ease-in-out}
+            tr:hover{background-color:#EEE;cursor: pointer}
+
+        </style>
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="tab tab-2">
+              NOMBRE :<input type="text" name="fname" id="fname" placeholder="Nombre">
+              APELLIDO :<input type="text" name="lname" id="lname" placeholder="Apellido">
+              ID :<input type="number" name="id" id="id" placeholder="id">
+
+
+              <button onclick="AgregarDato();">Agregar</button>
+              <button onclick="EditarDato();">Editar</button>
+              <button onclick="EliminarDato();">Eliminar</button>
+          </div>
+      </div>
+            <div class="tab tab-1">
+                <table id="table" border="1" >
+
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>APELLIDO</th>
+                        <th>ID</th>
+                    </tr>
+                    <tr>
+                        <td>A1</td>
+                        <td>B1</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>A3</td>
+                        <td>B3</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>A2</td>
+                        <td>B2</td>
+                        <td>20</td>
+                    </tr>
+                </table>
+            </div>
+
+
+        <script>
+
+            var rIndex,
+                table = document.getElementById("table");
+
+            function ValidarCampoVacio()
+            {
+                var isEmpty = false,
+                    fname = document.getElementById("fname").value,
+                    lname = document.getElementById("lname").value,
+                    id = document.getElementById("id").value;
+
+                if(fname === ""){
+                    alert("First Name Connot Be Empty");
+                    isEmpty = true;
+                }
+                else if(lname === ""){
+                    alert("Last Name Connot Be Empty");
+                    isEmpty = true;
+                }
+                else if(id === ""){
+                    alert("id Connot Be Empty");
+                    isEmpty = true;
+                }
+                return isEmpty;
+            }
+
+            function AgregarDato()
+            {
+
+                if(!ValidarCampoVacio()){
+                var nuevaFila = table.insertRow(table.length),
+                    cell1 = nuevaFila.insertCell(0),
+                    cell2 = nuevaFila.insertCell(1),
+                    cell3 = nuevaFila.insertCell(2),
+                    fname = document.getElementById("fname").value,
+                    lname = document.getElementById("lname").value,
+                    id = document.getElementById("id").value;
+
+                cell1.innerHTML = fname;
+                cell2.innerHTML = lname;
+                cell3.innerHTML = id;
+
+                SeleccionarFila();
+            }
+            }
+
+
+            function SeleccionarFila()
+            {
+
+                for(var i = 1; i < table.rows.length; i++)
+                {
+                    table.rows[i].onclick = function()
+                    {
+                      //obtener indice seleccionado
+                      rIndex = this.rowIndex;
+                      document.getElementById("fname").value = this.cells[0].innerHTML;
+                      document.getElementById("lname").value = this.cells[1].innerHTML;
+                      document.getElementById("id").value = this.cells[2].innerHTML;
+                    };
+                }
+            }
+            SeleccionarFila();
+
+            function EditarDato()
+            {
+                var fname = document.getElementById("fname").value,
+                    lname = document.getElementById("lname").value,
+                    id = document.getElementById("id").value;
+               if(!ValidarCampoVacio()){
+                table.rows[rIndex].cells[0].innerHTML = fname;
+                table.rows[rIndex].cells[1].innerHTML = lname;
+                table.rows[rIndex].cells[2].innerHTML = id;
+              }
+            }
+
+            function EliminarDato()
+            {
+                table.deleteRow(rIndex);
+                document.getElementById("fname").value = "";
+                document.getElementById("lname").value = "";
+                document.getElementById("id").value = "";
+            }
+        </script>
+
+      
+
+    </body>
+</html>
